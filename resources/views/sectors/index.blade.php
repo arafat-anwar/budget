@@ -25,7 +25,7 @@
                             <tr id="tr-{{ $sector->id }}">
                                 <td>{{ $key+1 }}</td>
                                 <td>{{ $sector->name }}</td>
-                                <td class="text-center {{ $sector->type == 'income' ? 'text-success' : 'text-danger' }}">{{ ucwords($sector->type) }}</td>
+                                <td class="text-center {{ $sector->type == 'income' ? 'text-success' : 'text-danger' }}"><strong>{{ ucwords($sector->type) }}</strong></td>
                                 <td class="text-center">
                                     <div class="btn-group" role="group" aria-label="Basic example">
                                       <a onclick="Show('Edit Sector', '{{ url('sectors/'.$sector->id.'/edit') }}')" style="cursor: pointer" class="btn btn-primary btn-sm"><i class="fa fa-edit"></i></a>

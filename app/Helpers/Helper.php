@@ -20,3 +20,20 @@ function whoops($message='Whoops! Something went Wrong!'){
 function getMySqlQuery($query){
     return \Str::replaceArray('?', $query->getBindings(), $query->toSql());
 }
+
+function getBudget($sector_id, $year, $month){
+    $budget = \App\Models\Budget::where([
+        'sector_id' => $sector_id,
+        'year' => $year,
+        'month' => $month,
+    ])->first();
+    return isset($budget->id) ? ['budget' => $budget->budget, 'remarks' => $budget->remarks] : ['budget' => 0, 'remarks' => ''];
+}
+
+function getEntry($sector_id, $year, $month){
+    return \App\Models\Entry::where([
+        'sector_id' => $sector_id,
+    ])
+    ->whereRaw('substr(`date`, 1, 10)', $year.'-'.$month)
+    ->sum('amount');
+}

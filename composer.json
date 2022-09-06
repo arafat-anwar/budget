@@ -33,9 +33,7 @@
             "app/Helpers/MySQLQueriesForRegister.php",
             "app/Helpers/MySQLQueriesForSector.php",
             "app/Helpers/MySQLQueriesForBudget.php",
-            "app/Helpers/MySQLQueriesForPlan.php",
-            "app/Helpers/MySQLQueriesForEntry.php",
-            "app/Helpers/MySQLQueriesForReport.php"
+            "app/Helpers/MySQLQueriesForEntry.php"
         ]
     },
     "autoload-dev": {

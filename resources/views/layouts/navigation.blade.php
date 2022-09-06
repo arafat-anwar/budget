@@ -21,14 +21,8 @@
                     <x-nav-link :href="route('budget.index')" :active="request()->routeIs('budget.index')">
                         {{ __('Budget') }}
                     </x-nav-link>
-                    <x-nav-link :href="route('plans.index')" :active="request()->routeIs('plans.index')">
-                        {{ __('Plans') }}
-                    </x-nav-link>
                     <x-nav-link :href="route('entries.index')" :active="request()->routeIs('entries.index')">
                         {{ __('Entries') }}
-                    </x-nav-link>
-                    <x-nav-link :href="route('reports.index')" :active="request()->routeIs('reports.index')">
-                        {{ __('Reports') }}
                     </x-nav-link>
                 </div>
             </div>

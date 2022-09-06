@@ -23,8 +23,4 @@ class Sector extends Model
     public function entries(){
         return $this->hasMany(Entry::class);
     }
-
-    public function plans(){
-        return $this->hasMany(Plan::class);
-    }
 }

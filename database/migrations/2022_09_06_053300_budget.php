@@ -21,7 +21,7 @@ class Budget extends Migration
             $table->integer('year');
             $table->string('month');
             $table->double('budget')->default(0);
-            $table->double('remarks')->nullable();
+            $table->text('remarks')->nullable();
             $table->timestamps();
         });
     }

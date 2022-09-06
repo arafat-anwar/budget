@@ -4,7 +4,7 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="csrf-token" content="{{ csrf_token() }}">
-
+        
         <title>Budget</title>
         <link rel="icon" href="{{ asset('icon.png') }}" type="image/png">
 
@@ -29,6 +29,10 @@
         <style type="text/css">
             a:hover{
                 text-decoration: none !important;
+            }
+
+            table td{
+                vertical-align: middle !important;
             }
         </style>
     </head>
