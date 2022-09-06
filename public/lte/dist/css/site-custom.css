@@ -1,0 +1,127 @@
+/* Custom CSS Added by Jihan
+-------------------------------------------------------	*/
+
+@import url("https://fonts.maateen.me/solaiman-lipi/font.css");
+body {
+	font-family: "SolaimanLipi", Arial, sans-serif !important;
+}
+
+[class*='sidebar-dark-'] {
+	/*background-color: #0b2239;*/
+}
+
+.layout-navbar-fixed .wrapper .sidebar-dark-primary .brand-link:not([class*=navbar]) {
+	/*background-color: #0b2239;*/
+}
+
+[class*=sidebar-dark] .brand-link {
+	border-bottom: 0;
+}
+
+.layout-navbar-fixed .wrapper .main-header {
+	/*background: #0b2239!important;*/
+}
+
+.navbar-light .navbar-nav .nav-link {
+	/*color: #fff !important;*/
+}
+
+.content-wrapper {
+	/* background: #f8f8fb; */
+}
+
+.content-wrapper>.content {
+	/* padding: 0 2rem; */
+}
+
+.small-box {
+	/* border-radius: 0.25rem;
+    box-shadow: none;
+    background: #fff; */
+}
+
+.small-box>.small-box-footer {
+	/* background: rgba(0, 0, 0, 0.2); */
+}
+
+.small-box>.inner {
+	background: #fff;
+}
+
+.section-wrapper {
+	/* margin-bottom: 1.25rem; */
+}
+
+.content-header {
+	/* padding: 2rem 0 5px 2rem;
+    margin-right: 3rem; */
+}
+
+.card {
+	/* margin-bottom: 24px; */
+	-webkit-box-shadow: 0 0.75rem 1.5rem rgb(18 38 63 / 3%);
+	box-shadow: 0 0.75rem 1.5rem rgb(18 38 63 / 3%);
+}
+
+.card-header {
+	/* border-bottom: 0;
+    padding-top: 1.25rem; */
+}
+
+.card-header>h4 {
+	/* margin-bottom: 0; */
+}
+
+.bg-info {
+	/* background-color: #0b2239 !important; */
+}
+
+table.dataTable thead>tr {
+	/* background: inherit !important;
+    color: inherit !important; */
+}
+
+.main-header {
+	/* min-height: 70px;
+	border-bottom: 0; */
+}
+
+.brand-link {
+	/** padding: 0.5rem 0.5rem;
+	min-height: 70px; **/
+}
+
+.octicon {
+	fill: currentColor;
+	vertical-align: middle !important;
+}
+
+[class*='sidebar-dark'] .brand-link {
+	/* border-bottom: 0;
+    color: #fff !important;
+    background: #0b2239 !important; */
+}
+
+input, button, select, optgroup, textarea {
+	/* margin-bottom: 1rem; */
+}
+
+.btn-success {
+	/* color: #ffffff !important; */
+}
+
+form .btn {
+	/* margin-top: 1rem; */
+}
+
+.os-content {
+	padding: 0 !important;
+}
+
+.main-footer {
+	background: transparent;
+	border-top: 0;
+	color: #869099;
+	padding: 1rem;
+	font-size: 14px;
+}
