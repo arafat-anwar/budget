@@ -23,14 +23,14 @@
                                         <optgroup label="Income">
                                           @if(isset($sectors['incomes'][0]))
                                           @foreach($sectors['incomes'] as $key => $income)
-                                          <option value="{{ $income->id }}">&nbsp;&nbsp;&nbsp;&nbsp;{{ $income->name }}</option>
+                                          <option value="{{ $income->id }}" {{ $sector_id == $income->id ? 'selected' : '' }}>&nbsp;&nbsp;&nbsp;&nbsp;{{ $income->name }}</option>
                                           @endforeach
                                           @endif
                                         </optgroup>
                                         <optgroup label="Expense">
                                           @if(isset($sectors['expenses'][0]))
                                           @foreach($sectors['expenses'] as $key => $expense)
-                                          <option value="{{ $expense->id }}">&nbsp;&nbsp;&nbsp;&nbsp;{{ $expense->name }}</option>
+                                          <option value="{{ $expense->id }}" {{ $sector_id == $expense->id ? 'selected' : '' }}>&nbsp;&nbsp;&nbsp;&nbsp;{{ $expense->name }}</option>
                                           @endforeach
                                           @endif
                                         </optgroup>
