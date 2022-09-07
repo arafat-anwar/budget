@@ -17,23 +17,16 @@ function whoops($message='Whoops! Something went Wrong!'){
     session()->flash('danger',$message);
 }
 
-function getMySqlQuery($query){
+function mysqlQuery($query){
     return \Str::replaceArray('?', $query->getBindings(), $query->toSql());
 }
 
 function getBudget($sector_id, $year, $month){
-    $budget = \App\Models\Budget::where([
-        'sector_id' => $sector_id,
-        'year' => $year,
-        'month' => $month,
-    ])->first();
-    return isset($budget->id) ? ['budget' => $budget->budget, 'remarks' => $budget->remarks] : ['budget' => 0, 'remarks' => ''];
+    $budget = DB::select("select * from `budget` where `sector_id` = '".$sector_id."' and `year` = '".$year."' and `month` = '".$month."' limit 1");
+    return isset($budget[0]->id) ? ['budget' => $budget[0]->budget, 'remarks' => $budget[0]->remarks] : ['budget' => 0, 'remarks' => ''];
 }
 
 function getEntry($sector_id, $year, $month){
-    return \App\Models\Entry::where([
-        'sector_id' => $sector_id,
-    ])
-    ->whereRaw('substr(`date`, 1, 10)', $year.'-'.$month)
-    ->sum('amount');
+    $date = $year.'-'.$month;
+    return DB::select("select sum(`amount`) as amount from `entries` where `sector_id` = '".$sector_id."' and substr(`date`, 1, 7) = '".$date."'")[0]->amount;
 }

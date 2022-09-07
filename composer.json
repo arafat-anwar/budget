@@ -28,12 +28,7 @@
             "Database\\Seeders\\": "database/seeders/"
         },
         "files":[
-            "app/Helpers/Helper.php",
-            "app/Helpers/MySQLQueriesForLogin.php",
-            "app/Helpers/MySQLQueriesForRegister.php",
-            "app/Helpers/MySQLQueriesForSector.php",
-            "app/Helpers/MySQLQueriesForBudget.php",
-            "app/Helpers/MySQLQueriesForEntry.php"
+            "app/Helpers/Helper.php"
         ]
     },
     "autoload-dev": {

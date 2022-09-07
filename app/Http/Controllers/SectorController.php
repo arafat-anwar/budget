@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use \App\Models\Sector;
+use DB;
 
 class SectorController extends Controller
 {
@@ -20,7 +21,7 @@ class SectorController extends Controller
     public function index()
     {
         $data = [
-            'sectors' => Sector::where('user_id', auth()->user()->id)->get()
+            'sectors' => DB::select("select * from `sectors` where `user_id` = ".auth()->user()->id)
         ];
         return view('sectors.index', $data);
     }
@@ -48,11 +49,7 @@ class SectorController extends Controller
             'name' => 'required',
         ]);
 
-        $sector = Sector::create([
-            'user_id' => auth()->user()->id,
-            'name' => $request->name,
-            'type' => $request->type,
-        ]);
+        $sector = DB::select("insert into `sectors` (`user_id`, `name`, `type`) values ('".auth()->user()->id."', '".$request->name."', '".$request->type."')");
         return is_save($sector, "Sector has been saved successfully.");
     }
 
@@ -76,7 +73,7 @@ class SectorController extends Controller
     public function edit($id)
     {
         $data = [
-            'sector' => Sector::find($id)
+            'sector' => DB::select("select * from `sectors` where `id` = ".$id)[0]
         ];
         return view('sectors.edit', $data);
     }
@@ -95,12 +92,7 @@ class SectorController extends Controller
             'name' => 'required',
         ]);
 
-        $sector = Sector::updateOrCreate([
-            'id' => $id
-        ],[
-            'name' => $request->name,
-            'type' => $request->type,
-        ]);
+        $sector = DB::select("UPDATE `budget`.`sectors` SET `name` = '".$request->name."', `type` = '".$request->type."' WHERE `id` = '".$id."'");
         return is_save($sector, "Sector has been updated successfully.");
     }
 
@@ -112,15 +104,9 @@ class SectorController extends Controller
      */
     public function destroy($id)
     {
-        if(Sector::find($id)->delete()){
-            return response()->json([
-                'success' => true
-            ]);
-        }
-
+        DB::select("DELETE FROM `sectors` WHERE `id` = '".$id."'");
         return response()->json([
-            'success' => false,
-            'message' => 'Something went wrong!'
+            'success' => true
         ]);
     }
 }

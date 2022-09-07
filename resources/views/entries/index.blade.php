@@ -73,7 +73,7 @@
                                     @foreach($entries as $key => $entry)
                                     <tr id="tr-{{ $entry->id }}">
                                         <td>{{ $key+1 }}</td>
-                                        <td>{{ $entry->sector->name }} (<span class="{{ $entry->sector->type == 'income' ? 'text-success' : 'text-danger' }}">{{ ucwords($entry->sector->type) }}</span>)</td>
+                                        <td>{{ $entry->sector_name }} (<span class="{{ $entry->sector_type == 'income' ? 'text-success' : 'text-danger' }}">{{ ucwords($entry->sector_type) }}</span>)</td>
                                         <td>{{ $entry->title }}</td>
                                         <td class="text-right">{{ $entry->amount }}</td>
                                         <td>{{ date('F j, Y', strtotime($entry->time)).' '.date('g:i a', strtotime($entry->time)) }}</td>

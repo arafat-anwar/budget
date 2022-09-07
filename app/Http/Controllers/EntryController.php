@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use \App\Models\Sector;
 use \App\Models\Entry;
+use DB;
 
 class EntryController extends Controller
 {
@@ -20,26 +21,19 @@ class EntryController extends Controller
      */
     public function index()
     {
-        $sector_id = request()->has('sector_id') ? request()->get('sector_id') : 0;
+        $sector_id = request()->has('sector_id') ? request()->get('sector_id') : 1;
         $from = request()->has('from') ? request()->get('from') : date('Y-m-01');
         $to = request()->has('to') ? request()->get('to') : date('Y-m-t');
+
         $data = [
             'sector_id' => $sector_id,
             'from' => $from,
             'to' => $to,
             'sectors' => [
-                'incomes' => Sector::where('user_id', auth()->user()->id)->where('type', 'income')->orderBy('name', 'asc')->get(),
-                'expenses' => Sector::where('user_id', auth()->user()->id)->where('type', 'expense')->orderBy('name', 'asc')->get(),
+                'incomes' => DB::select("select * from `sectors` where `user_id` = ".auth()->user()->id." and type = 'income' order by name asc"),
+                'expenses' => DB::select("select * from `sectors` where `user_id` = ".auth()->user()->id." and type = 'expense' order by name asc"),
             ],
-            'entries' => Entry::whereHas('sector', function($query){
-                return $query->where('user_id', auth()->user()->id);
-            })
-            ->when($sector_id > 0, function($query) use($sector_id){
-                return $query->where('sector_id', $sector_id);
-            })
-            ->where('date', '>=', $from)
-            ->where('date', '<=', $to)
-            ->get(),
+            'entries' => DB::select("select `entries`.*, `sectors`.name as sector_name, `sectors`.type as sector_type from `entries` inner join sectors on `entries`.sector_id = `sectors`.id where exists (select * from `sectors` where `entries`.`sector_id` = `sectors`.`id` and `sectors`.`user_id` = ".auth()->user()->id.") ".($sector_id > 0 ? 'and `entries`.`sector_id` = 1' : '')." and `entries`.`date` >= '".$from."' and `entries`.`date` <= '".$to."'"),
         ];
         return view('entries.index', $data);
     }
@@ -53,9 +47,9 @@ class EntryController extends Controller
     {
         $data = [
             'sectors' => [
-                'incomes' => Sector::where('user_id', auth()->user()->id)->where('type', 'income')->orderBy('name', 'asc')->get(),
-                'expenses' => Sector::where('user_id', auth()->user()->id)->where('type', 'expense')->orderBy('name', 'asc')->get(),
-            ],
+                'incomes' => DB::select("select * from `sectors` where `user_id` = ".auth()->user()->id." and type = 'income' order by name asc"),
+                'expenses' => DB::select("select * from `sectors` where `user_id` = ".auth()->user()->id." and type = 'expense' order by name asc"),
+            ]
         ];
         return view('entries.create', $data);
     }
@@ -76,8 +70,9 @@ class EntryController extends Controller
             'amount' => 'required',
         ]);
 
-        $entry = Entry::create($request->all());
-        return is_save($entry, "Entry has been saved successfully.");
+        $entry = DB::select("INSERT INTO `entries`(`sector_id`, `date`, `time`, `title`, `amount`) VALUES ('".$request->sector_id."', '".$request->date."', '".$request->time."', '".$request->title."', '".$request->amount."')");
+
+        return is_save(true, "Entry has been saved successfully.");
     }
 
     /**
@@ -101,8 +96,8 @@ class EntryController extends Controller
     {
         $data = [
             'sectors' => [
-                'incomes' => Sector::where('user_id', auth()->user()->id)->where('type', 'income')->orderBy('name', 'asc')->get(),
-                'expenses' => Sector::where('user_id', auth()->user()->id)->where('type', 'expense')->orderBy('name', 'asc')->get(),
+                'incomes' => DB::select("select * from `sectors` where `user_id` = ".auth()->user()->id." and type = 'income' order by name asc"),
+                'expenses' => DB::select("select * from `sectors` where `user_id` = ".auth()->user()->id." and type = 'expense' order by name asc"),
             ],
             'entry' => Entry::find($id)
         ];
@@ -127,9 +122,8 @@ class EntryController extends Controller
             'amount' => 'required',
         ]);
 
-        $entry = Entry::find($id);
-        $entry->fill($request->all())->save();
-        return is_save($entry, "Entry has been updated successfully.");
+        DB::select("UPDATE `budget`.`entries` SET `sector_id` = '".$request->sector_id."', `date` = '".$request->date."', `time` = '".$request->time."', `title` = '".$request->title."', `amount` = '".$request->amount."' WHERE `id` = '".$id."'");
+        return is_save(true, "Entry has been updated successfully.");
     }
 
     /**
@@ -140,15 +134,9 @@ class EntryController extends Controller
      */
     public function destroy($id)
     {
-        if(Entry::find($id)->delete()){
-            return response()->json([
-                'success' => true
-            ]);
-        }
-
+        DB::select("DELETE FROM `entries` WHERE `id` = '".$id."'");
         return response()->json([
-            'success' => false,
-            'message' => 'Something went wrong!'
+            'success' => true
         ]);
     }
 }

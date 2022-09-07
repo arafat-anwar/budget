@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use \App\Models\Sector;
 use \App\Models\Budget;
 use \App\Models\Entry;
+use DB;
 
 class DashboardController extends Controller
 {
@@ -22,9 +23,9 @@ class DashboardController extends Controller
             'year' => $year,
             'month' => $month,
             'sectors' => [
-                'incomes' => Sector::where('user_id', auth()->user()->id)->where('type', 'income')->orderBy('name', 'asc')->get(),
-                'expenses' => Sector::where('user_id', auth()->user()->id)->where('type', 'expense')->orderBy('name', 'asc')->get(),
-            ],
+                'incomes' => DB::select("select * from `sectors` where `user_id` = ".auth()->user()->id." and type = 'income' order by name asc"),
+                'expenses' => DB::select("select * from `sectors` where `user_id` = ".auth()->user()->id." and type = 'expense' order by name asc"),
+            ]
         ];
         return view('dashboard', $data);
     }
