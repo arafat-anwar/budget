@@ -35,17 +35,17 @@ class BudgetController extends Controller
             'year' => 'required',
             'month' => 'required',
             'amounts' => 'required',
-            'amounts.*' => 'required',
             'remarks' => 'required',
-            'remarks.*' => 'required',
         ]);
         
         foreach($request->amounts as $sector_id => $value){
-            $search = DB::select("select * from `budget` where (`sector_id` = '".$sector_id."' and `year` = '".$request->year."' and `month` = '".$request->month."') limit 1");
-            if(isset($search[0]->id)){
-                DB::select("update `budget` set `budget` = '".$request->amounts[$sector_id]."', `remarks` = '".$request->remarks[$sector_id]."' where `id` = '".$search[0]->id."'");
-            }else{
-                DB::select("INSERT INTO `budget` (`sector_id`, `year`, `month`, `budget`, `remarks`) VALUES ('".$sector_id."', '".$request->year."', '".$request->month."', '".$request->amounts[$sector_id]."', '".$request->remarks[$sector_id]."')");
+            if(!empty($value)){
+                $search = DB::select("select * from `budget` where (`sector_id` = '".$sector_id."' and `year` = '".$request->year."' and `month` = '".$request->month."') limit 1");
+                if(isset($search[0]->id)){
+                    DB::select("update `budget` set `budget` = '".$request->amounts[$sector_id]."', `remarks` = '".$request->remarks[$sector_id]."' where `id` = '".$search[0]->id."'");
+                }else{
+                    DB::select("INSERT INTO `budget` (`sector_id`, `year`, `month`, `budget`, `remarks`) VALUES ('".$sector_id."', '".$request->year."', '".$request->month."', '".$request->amounts[$sector_id]."', '".$request->remarks[$sector_id]."')");
+                }
             }
         }
 
