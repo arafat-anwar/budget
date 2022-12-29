@@ -49,15 +49,9 @@ class APIController extends Controller
                 'password' => bcrypt($request->password),
             ]);
 
-            return response()->json([
-                'success' => true,
-                'message' => "Congratualtions! Your Ragistration is successful."
-            ], 201);
+            return response()->json("Congratualtions! Your Ragistration is successful.");
         }else{
-            return response()->json([
-                'success' => false,
-                'errors' => $validator->errors()->all()
-            ], 400);
+            return response()->json('Code: 400, Errors: '.implode(', ', $validator->errors()->all()));
         }
     }
 
@@ -65,23 +59,17 @@ class APIController extends Controller
     {
         $checkUser = $this->checkUser($request->email, $request->password);
         if(!$checkUser['success']){
-            return response()->json([
-                'success' => false,
-                'errors' => $checkUser['message']
-            ], 401);
+            return response()->json($checkUser['message']);
         }
 
-        return response()->json(Sector::where('user_id', $checkUser['user']->id)->get(), 200);
+        return response()->json(Sector::where('user_id', $checkUser['user']->id)->get());
     }
 
     public function createSector(Request $request)
     {
         $checkUser = $this->checkUser($request->email, $request->password);
         if(!$checkUser['success']){
-            return response()->json([
-                'success' => false,
-                'errors' => $checkUser['message']
-            ], 401);
+            return response()->json($checkUser['message']);
         }
 
         $validator = \Validator::make($request->all(), [
@@ -96,15 +84,9 @@ class APIController extends Controller
                 'type' => $request->type,
             ], []);
 
-            return response()->json([
-                'success' => true,
-                'message' => "Congratualtions! Sector Saved successfully."
-            ], 201);
+            return response()->json("Congratualtions! Sector Saved successfully.");
         }else{
-            return response()->json([
-                'success' => false,
-                'errors' => $validator->errors()->all()
-            ], 400);
+            return response()->json('Code: 400, Errors: '.implode(', ', $validator->errors()->all()));
         }
     }
 
@@ -112,10 +94,7 @@ class APIController extends Controller
     {
         $checkUser = $this->checkUser($request->email, $request->password);
         if(!$checkUser['success']){
-            return response()->json([
-                'success' => false,
-                'errors' => $checkUser['message']
-            ], 401);
+            return response()->json($checkUser['message']);
         }
 
         $validator = \Validator::make($request->all(), [
@@ -133,15 +112,9 @@ class APIController extends Controller
                 'type' => $request->type,
             ]);
 
-            return response()->json([
-                'success' => true,
-                'message' => "Congratualtions! Sector Updated successfully."
-            ], 201);
+            return response()->json("Congratualtions! Sector Updated successfully.");
         }else{
-            return response()->json([
-                'success' => false,
-                'errors' => $validator->errors()->all()
-            ], 400);
+            return response()->json('Code: 400, Errors: '.implode(', ', $validator->errors()->all()));
         }
     }
 
@@ -149,10 +122,7 @@ class APIController extends Controller
     {
         $checkUser = $this->checkUser($request->email, $request->password);
         if(!$checkUser['success']){
-            return response()->json([
-                'success' => false,
-                'errors' => $checkUser['message']
-            ], 401);
+            return response()->json($checkUser['message']);
         }
 
         $validator = \Validator::make($request->all(), [
@@ -165,15 +135,9 @@ class APIController extends Controller
                 'user_id' => $checkUser['user']->id
             ])->delete();
 
-            return response()->json([
-                'success' => true,
-                'message' => "Congratualtions! Sector Deleted successfully."
-            ], 200);
+            return response()->json("Congratualtions! Sector Deleted successfully.");
         }else{
-            return response()->json([
-                'success' => false,
-                'errors' => $validator->errors()->all()
-            ], 400);
+            return response()->json('Code: 400, Errors: '.implode(', ', $validator->errors()->all()));
         }
     }
 
@@ -181,10 +145,7 @@ class APIController extends Controller
     {
         $checkUser = $this->checkUser($request->email, $request->password);
         if(!$checkUser['success']){
-            return response()->json([
-                'success' => false,
-                'errors' => $checkUser['message']
-            ], 401);
+            return response()->json($checkUser['message']);
         }
 
         $budgets = Budget::with(['sector'])
@@ -202,17 +163,14 @@ class APIController extends Controller
         })
         ->get();
 
-        return response()->json($budgets, 200);
+        return response()->json($budgets);
     }
 
     public function createBudget(Request $request)
     {
         $checkUser = $this->checkUser($request->email, $request->password);
         if(!$checkUser['success']){
-            return response()->json([
-                'success' => false,
-                'errors' => $checkUser['message']
-            ], 401);
+            return response()->json($checkUser['message']);
         }
 
         $validator = \Validator::make($request->all(), [
@@ -226,15 +184,9 @@ class APIController extends Controller
         if($validator->passes()){
             Budget::create($request->all());
 
-            return response()->json([
-                'success' => true,
-                'message' => "Congratualtions! Budget Created successfully."
-            ], 201);
+            return response()->json("Congratualtions! Budget Created successfully.");
         }else{
-            return response()->json([
-                'success' => false,
-                'errors' => $validator->errors()->all()
-            ], 400);
+            return response()->json('Code: 400, Errors: '.implode(', ', $validator->errors()->all()));
         }
     }
 
@@ -242,10 +194,7 @@ class APIController extends Controller
     {
         $checkUser = $this->checkUser($request->email, $request->password);
         if(!$checkUser['success']){
-            return response()->json([
-                'success' => false,
-                'errors' => $checkUser['message']
-            ], 401);
+            return response()->json($checkUser['message']);
         }
 
         $validator = \Validator::make($request->all(), [
@@ -264,15 +213,9 @@ class APIController extends Controller
 
             $budget->fill($request->all())->save();
 
-            return response()->json([
-                'success' => true,
-                'message' => "Congratualtions! Budget Updated successfully."
-            ], 201);
+            return response()->json("Congratualtions! Budget Updated successfully.");
         }else{
-            return response()->json([
-                'success' => false,
-                'errors' => $validator->errors()->all()
-            ], 400);
+            return response()->json('Code: 400, Errors: '.implode(', ', $validator->errors()->all()));
         }
     }
 
@@ -280,10 +223,7 @@ class APIController extends Controller
     {
         $checkUser = $this->checkUser($request->email, $request->password);
         if(!$checkUser['success']){
-            return response()->json([
-                'success' => false,
-                'errors' => $checkUser['message']
-            ], 401);
+            return response()->json($checkUser['message']);
         }
 
         $validator = \Validator::make($request->all(), [
@@ -295,15 +235,9 @@ class APIController extends Controller
                 return $query->where('user_id', $checkUser['user']->id);
             })->delete();
 
-            return response()->json([
-                'success' => true,
-                'message' => "Congratualtions! Sector Deleted successfully."
-            ], 200);
+            return response()->json("Congratualtions! Sector Deleted successfully.");
         }else{
-            return response()->json([
-                'success' => false,
-                'errors' => $validator->errors()->all()
-            ], 400);
+            return response()->json('Code: 400, Errors: '.implode(', ', $validator->errors()->all()));
         }
     }
 
@@ -311,10 +245,7 @@ class APIController extends Controller
     {
         $checkUser = $this->checkUser($request->email, $request->password);
         if(!$checkUser['success']){
-            return response()->json([
-                'success' => false,
-                'errors' => $checkUser['message']
-            ], 401);
+            return response()->json($checkUser['message']);
         }
 
         $entries = Entry::with(['sector'])
@@ -332,17 +263,14 @@ class APIController extends Controller
         })
         ->get();
 
-        return response()->json($entries, 200);
+        return response()->json($entries);
     }
 
     public function createEntry(Request $request)
     {
         $checkUser = $this->checkUser($request->email, $request->password);
         if(!$checkUser['success']){
-            return response()->json([
-                'success' => false,
-                'errors' => $checkUser['message']
-            ], 401);
+            return response()->json($checkUser['message']);
         }
 
         $validator = \Validator::make($request->all(), [
@@ -357,15 +285,9 @@ class APIController extends Controller
         if($validator->passes()){
             Entry::create($request->all());
 
-            return response()->json([
-                'success' => true,
-                'message' => "Congratualtions! Entry Created successfully."
-            ], 201);
+            return response()->json("Congratualtions! Entry Created successfully.");
         }else{
-            return response()->json([
-                'success' => false,
-                'errors' => $validator->errors()->all()
-            ], 400);
+            return response()->json('Code: 400, Errors: '.implode(', ', $validator->errors()->all()));
         }
     }
 
@@ -373,10 +295,7 @@ class APIController extends Controller
     {
         $checkUser = $this->checkUser($request->email, $request->password);
         if(!$checkUser['success']){
-            return response()->json([
-                'success' => false,
-                'errors' => $checkUser['message']
-            ], 401);
+            return response()->json($checkUser['message']);
         }
 
         $validator = \Validator::make($request->all(), [
@@ -396,15 +315,9 @@ class APIController extends Controller
 
             $entry->fill($request->all())->save();
 
-            return response()->json([
-                'success' => true,
-                'message' => "Congratualtions! Entry Updated successfully."
-            ], 201);
+            return response()->json("Congratualtions! Entry Updated successfully.");
         }else{
-            return response()->json([
-                'success' => false,
-                'errors' => $validator->errors()->all()
-            ], 400);
+            return response()->json('Code: 400, Errors: '.implode(', ', $validator->errors()->all()));
         }
     }
 
@@ -412,10 +325,7 @@ class APIController extends Controller
     {
         $checkUser = $this->checkUser($request->email, $request->password);
         if(!$checkUser['success']){
-            return response()->json([
-                'success' => false,
-                'errors' => $checkUser['message']
-            ], 401);
+            return response()->json($checkUser['message']);
         }
 
         $validator = \Validator::make($request->all(), [
@@ -427,15 +337,9 @@ class APIController extends Controller
                 return $query->where('user_id', $checkUser['user']->id);
             })->delete();
 
-            return response()->json([
-                'success' => true,
-                'message' => "Congratualtions! Entry Deleted successfully."
-            ], 200);
+            return response()->json("Congratualtions! Entry Deleted successfully.");
         }else{
-            return response()->json([
-                'success' => false,
-                'errors' => $validator->errors()->all()
-            ], 400);
+            return response()->json('Code: 400, Errors: '.implode(', ', $validator->errors()->all()));
         }
     }
 }
