@@ -51,13 +51,13 @@ class APIController extends Controller
 
             return response()->json([
                 'success' => true,
-                'errors' => "Congratualtions! Your Ragistration is successful."
-            ]);
+                'message' => "Congratualtions! Your Ragistration is successful."
+            ], 201);
         }else{
             return response()->json([
                 'success' => false,
                 'errors' => $validator->errors()->all()
-            ]);
+            ], 400);
         }
     }
 
@@ -68,10 +68,10 @@ class APIController extends Controller
             return response()->json([
                 'success' => false,
                 'errors' => $checkUser['message']
-            ]);
+            ], 401);
         }
 
-        return response()->json(Sector::where('user_id', $checkUser['user']->id)->get());
+        return response()->json(Sector::where('user_id', $checkUser['user']->id)->get(), 200);
     }
 
     public function createSector(Request $request)
@@ -81,7 +81,7 @@ class APIController extends Controller
             return response()->json([
                 'success' => false,
                 'errors' => $checkUser['message']
-            ]);
+            ], 401);
         }
 
         $validator = \Validator::make($request->all(), [
@@ -98,13 +98,13 @@ class APIController extends Controller
 
             return response()->json([
                 'success' => true,
-                'errors' => "Congratualtions! Sector Saved successfully."
-            ]);
+                'message' => "Congratualtions! Sector Saved successfully."
+            ], 201);
         }else{
             return response()->json([
                 'success' => false,
                 'errors' => $validator->errors()->all()
-            ]);
+            ], 400);
         }
     }
 
@@ -115,7 +115,7 @@ class APIController extends Controller
             return response()->json([
                 'success' => false,
                 'errors' => $checkUser['message']
-            ]);
+            ], 401);
         }
 
         $validator = \Validator::make($request->all(), [
@@ -135,13 +135,13 @@ class APIController extends Controller
 
             return response()->json([
                 'success' => true,
-                'errors' => "Congratualtions! Sector Updated successfully."
-            ]);
+                'message' => "Congratualtions! Sector Updated successfully."
+            ], 201);
         }else{
             return response()->json([
                 'success' => false,
                 'errors' => $validator->errors()->all()
-            ]);
+            ], 400);
         }
     }
 
@@ -152,7 +152,7 @@ class APIController extends Controller
             return response()->json([
                 'success' => false,
                 'errors' => $checkUser['message']
-            ]);
+            ], 401);
         }
 
         $validator = \Validator::make($request->all(), [
@@ -167,13 +167,13 @@ class APIController extends Controller
 
             return response()->json([
                 'success' => true,
-                'errors' => "Congratualtions! Sector Deleted successfully."
-            ]);
+                'message' => "Congratualtions! Sector Deleted successfully."
+            ], 200);
         }else{
             return response()->json([
                 'success' => false,
                 'errors' => $validator->errors()->all()
-            ]);
+            ], 400);
         }
     }
 
@@ -184,7 +184,7 @@ class APIController extends Controller
             return response()->json([
                 'success' => false,
                 'errors' => $checkUser['message']
-            ]);
+            ], 401);
         }
 
         $budgets = Budget::with(['sector'])
@@ -202,7 +202,7 @@ class APIController extends Controller
         })
         ->get();
 
-        return response()->json($budgets);
+        return response()->json($budgets, 200);
     }
 
     public function createBudget(Request $request)
@@ -212,7 +212,7 @@ class APIController extends Controller
             return response()->json([
                 'success' => false,
                 'errors' => $checkUser['message']
-            ]);
+            ], 401);
         }
 
         $validator = \Validator::make($request->all(), [
@@ -228,13 +228,13 @@ class APIController extends Controller
 
             return response()->json([
                 'success' => true,
-                'errors' => "Congratualtions! Budget Created successfully."
-            ]);
+                'message' => "Congratualtions! Budget Created successfully."
+            ], 201);
         }else{
             return response()->json([
                 'success' => false,
                 'errors' => $validator->errors()->all()
-            ]);
+            ], 400);
         }
     }
 
@@ -245,7 +245,7 @@ class APIController extends Controller
             return response()->json([
                 'success' => false,
                 'errors' => $checkUser['message']
-            ]);
+            ], 401);
         }
 
         $validator = \Validator::make($request->all(), [
@@ -266,13 +266,13 @@ class APIController extends Controller
 
             return response()->json([
                 'success' => true,
-                'errors' => "Congratualtions! Budget Updated successfully."
-            ]);
+                'message' => "Congratualtions! Budget Updated successfully."
+            ], 201);
         }else{
             return response()->json([
                 'success' => false,
                 'errors' => $validator->errors()->all()
-            ]);
+            ], 400);
         }
     }
 
@@ -283,7 +283,7 @@ class APIController extends Controller
             return response()->json([
                 'success' => false,
                 'errors' => $checkUser['message']
-            ]);
+            ], 401);
         }
 
         $validator = \Validator::make($request->all(), [
@@ -297,13 +297,13 @@ class APIController extends Controller
 
             return response()->json([
                 'success' => true,
-                'errors' => "Congratualtions! Sector Deleted successfully."
-            ]);
+                'message' => "Congratualtions! Sector Deleted successfully."
+            ], 200);
         }else{
             return response()->json([
                 'success' => false,
                 'errors' => $validator->errors()->all()
-            ]);
+            ], 400);
         }
     }
 
@@ -314,7 +314,7 @@ class APIController extends Controller
             return response()->json([
                 'success' => false,
                 'errors' => $checkUser['message']
-            ]);
+            ], 401);
         }
 
         $entries = Entry::with(['sector'])
@@ -332,7 +332,7 @@ class APIController extends Controller
         })
         ->get();
 
-        return response()->json($entries);
+        return response()->json($entries, 200);
     }
 
     public function createEntry(Request $request)
@@ -342,7 +342,7 @@ class APIController extends Controller
             return response()->json([
                 'success' => false,
                 'errors' => $checkUser['message']
-            ]);
+            ], 401);
         }
 
         $validator = \Validator::make($request->all(), [
@@ -359,13 +359,13 @@ class APIController extends Controller
 
             return response()->json([
                 'success' => true,
-                'errors' => "Congratualtions! Entry Created successfully."
-            ]);
+                'message' => "Congratualtions! Entry Created successfully."
+            ], 201);
         }else{
             return response()->json([
                 'success' => false,
                 'errors' => $validator->errors()->all()
-            ]);
+            ], 400);
         }
     }
 
@@ -376,7 +376,7 @@ class APIController extends Controller
             return response()->json([
                 'success' => false,
                 'errors' => $checkUser['message']
-            ]);
+            ], 401);
         }
 
         $validator = \Validator::make($request->all(), [
@@ -398,13 +398,13 @@ class APIController extends Controller
 
             return response()->json([
                 'success' => true,
-                'errors' => "Congratualtions! Entry Updated successfully."
-            ]);
+                'message' => "Congratualtions! Entry Updated successfully."
+            ], 201);
         }else{
             return response()->json([
                 'success' => false,
                 'errors' => $validator->errors()->all()
-            ]);
+            ], 400);
         }
     }
 
@@ -415,7 +415,7 @@ class APIController extends Controller
             return response()->json([
                 'success' => false,
                 'errors' => $checkUser['message']
-            ]);
+            ], 401);
         }
 
         $validator = \Validator::make($request->all(), [
@@ -429,13 +429,13 @@ class APIController extends Controller
 
             return response()->json([
                 'success' => true,
-                'errors' => "Congratualtions! Entry Deleted successfully."
-            ]);
+                'message' => "Congratualtions! Entry Deleted successfully."
+            ], 200);
         }else{
             return response()->json([
                 'success' => false,
                 'errors' => $validator->errors()->all()
-            ]);
+            ], 400);
         }
     }
 }
